@@ -18,7 +18,12 @@ func NewUserRepository(db *gorm.DB) *accountRepository {
 }
 
 func (u *accountRepository) GetByEmail(email string) (user *shared.GetByEmailDTO, err error) {
-	err = u.db.Table("users").Select("id", "email").Where("email = ?", email).First(&user).Error
+	err = u.db.Table("users").Select(
+		"id",
+		"email",
+		"password",
+		"role_id",
+	).Where("email = ?", email).First(&user).Error
 	return
 }
 
@@ -29,5 +34,10 @@ func (u *accountRepository) GetRoleById(id int) (role *shared.GetRoleByIdDTO, er
 
 func (u *accountRepository) Create(user *entities.UserModel) (err error) {
 	err = u.db.Create(user).Error
+	return
+}
+
+func (u *accountRepository) GetAllRole() (roles []*shared.GetAllRoleDTO, err error) {
+	err = u.db.Table("roles").First(&roles).Error
 	return
 }

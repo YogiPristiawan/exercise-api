@@ -8,23 +8,41 @@ import (
 )
 
 type accountController struct {
-	stService AccountService
+	accountService AccountService
 }
 
-func NewAccountController(stService AccountService) *accountController {
+func NewAccountController(accountService AccountService) *accountController {
 	return &accountController{
-		stService: stService,
+		accountService: accountService,
 	}
 }
 
-func (s *accountController) Register(c *gin.Context) {
+func (a *accountController) Register(c *gin.Context) {
 	in := entities.RegisterRequest{}
 
 	if !presentation.ReadRestIn(c, &in) {
 		return
 	}
 
-	out := s.stService.Register(&in)
+	out := a.accountService.Register(&in)
+
+	presentation.WriteRestOut(c, out, &out.CommonResult)
+}
+
+func (a *accountController) Login(c *gin.Context) {
+	in := entities.LoginRequest{}
+
+	if !presentation.ReadRestIn(c, &in) {
+		return
+	}
+
+	out := a.accountService.Login(&in)
+
+	presentation.WriteRestOut(c, out, &out.CommonResult)
+}
+
+func (a *accountController) Role(c *gin.Context) {
+	out := a.accountService.GetAllRole()
 
 	presentation.WriteRestOut(c, out, &out.CommonResult)
 }

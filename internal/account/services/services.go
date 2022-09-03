@@ -9,8 +9,10 @@ type AccountRepository interface {
 	GetByEmail(string) (*shared.GetByEmailDTO, error)
 	GetRoleById(int) (*shared.GetRoleByIdDTO, error)
 	Create(*entities.UserModel) error
+	GetAllRole() ([]*shared.GetAllRoleDTO, error)
 }
 
 type Validator interface {
 	ValidateRegisterPayload(*entities.RegisterRequest) error
+	ValidateLoginPayload(*entities.LoginRequest) error
 }

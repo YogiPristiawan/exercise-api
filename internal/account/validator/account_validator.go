@@ -11,20 +11,26 @@ var (
 	customErrorMessage = sharedValidator.CustomErrorMessage
 )
 
-type studentValidator struct {
+type accountValidator struct {
 	validator *validator.Validate
 }
 
 func NewAccountValidator(
 	validator *validator.Validate,
-) *studentValidator {
-	return &studentValidator{
+) *accountValidator {
+	return &accountValidator{
 		validator: validator,
 	}
 }
 
-func (s *studentValidator) ValidateRegisterPayload(in *entities.RegisterRequest) (err error) {
-	err = s.validator.Struct(in)
+func (a *accountValidator) ValidateRegisterPayload(in *entities.RegisterRequest) (err error) {
+	err = a.validator.Struct(in)
+	err = customErrorMessage(err)
+	return
+}
+
+func (a *accountValidator) ValidateLoginPayload(in *entities.LoginRequest) (err error) {
+	err = a.validator.Struct(in)
 	err = customErrorMessage(err)
 	return
 }

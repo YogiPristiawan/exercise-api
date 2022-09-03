@@ -1,9 +1,12 @@
 package account
 
 import (
-	"exercise-api/internal/account/entities"
+	accEntities "exercise-api/internal/account/entities"
+	"exercise-api/internal/shared/entities"
 )
 
 type AccountService interface {
-	Register(*entities.RegisterRequest) entities.RegisterResponse
+	Register(*accEntities.RegisterRequest) entities.BaseResponse[accEntities.RegisterResponse]
+	Login(*accEntities.LoginRequest) entities.BaseResponse[accEntities.LoginResponse]
+	GetAllRole() entities.BaseResponseArray[accEntities.GetAllRoleResponse]
 }
