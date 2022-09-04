@@ -135,13 +135,13 @@ func (a *accountService) GetAllRole() (out entities.BaseResponseArray[accEntitie
 	out.Message = "list roles"
 	if len(roles) > 0 {
 		for _, val := range roles {
-			out.Data = append(out.Data, &accEntities.GetAllRoleResponse{
+			out.Data = append(out.Data, accEntities.GetAllRoleResponse{
 				Id:   val.Id,
 				Name: val.Name,
 			})
 		}
 	} else {
-		out.Data = []*accEntities.GetAllRoleResponse{}
+		out.Data = []accEntities.GetAllRoleResponse{}
 	}
 	return
 }
