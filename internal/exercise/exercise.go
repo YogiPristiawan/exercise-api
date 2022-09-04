@@ -8,3 +8,7 @@ import (
 type ExerciseService interface {
 	Create(*exerciseEntities.ExerciseCreateRequest) entities.BaseResponse[exerciseEntities.ExerciseCreateResponse]
 }
+
+type QuestionService interface {
+	Create(*exerciseEntities.QuestionCreateRequest) entities.BaseResponse[exerciseEntities.QuestionCreateResponse]
+}

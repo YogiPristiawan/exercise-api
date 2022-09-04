@@ -25,25 +25,29 @@ func main() {
 	mysql := databases.NewMySQLConn()
 
 	// initialize repositories
-	userRepository := accountRepository.NewUserRepository(mysql)
-	exerciseRepository := exerciseRepository.NewExerciseRepository(mysql)
+	userRepositoryImpl := accountRepository.NewUserRepository(mysql)
+	exerciseRepositoryImpl := exerciseRepository.NewExerciseRepository(mysql)
+	questionRepositoryImpl := exerciseRepository.NewQuestionRepository(mysql)
 
 	// initialize validators
 	validator := validator.New()
-	accountValidator := accountValidator.NewAccountValidator(validator)
-	exerciseValidator := exerciseValidator.NewExerciseValidator(validator)
+	accountValidatorImpl := accountValidator.NewAccountValidator(validator)
+	exerciseValidatorImpl := exerciseValidator.NewExerciseValidator(validator)
+	questionValidatorImpl := exerciseValidator.NewQuestionValidator(validator)
 
 	// initialize services
-	accountService := accountService.NewAccountService(userRepository, accountValidator)
-	exerciseService := exerciseService.NewExerciseService(exerciseValidator, exerciseRepository)
+	accountServiceImpl := accountService.NewAccountService(userRepositoryImpl, accountValidatorImpl)
+	exerciseServiceImpl := exerciseService.NewExerciseService(exerciseValidatorImpl, exerciseRepositoryImpl)
+	questionServiceImpl := exerciseService.NewQuestionService(questionValidatorImpl, questionRepositoryImpl, exerciseRepositoryImpl)
 
 	// initialize controllers
-	accountController := account.NewAccountController(accountService)
-	exerciseController := exercise.NewExerciseController(exerciseService)
+	accountController := account.NewAccountController(accountServiceImpl)
+	exerciseController := exercise.NewExerciseController(exerciseServiceImpl)
+	questionController := exercise.NewQuestionController(questionServiceImpl)
 
 	// initilaize routes
 	routes.NewAccountRoutes(router, accountController)
-	routes.NewExerciseRoutes(router, exerciseController)
+	routes.NewExerciseRoutes(router, exerciseController, questionController)
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }

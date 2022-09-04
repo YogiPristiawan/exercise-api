@@ -6,9 +6,14 @@ type ExerciseController interface {
 	Create(c *gin.Context)
 }
 
-func NewExerciseRoutes(r *gin.Engine, exerciseController ExerciseController) {
+type QuestionController interface {
+	Create(c *gin.Context)
+}
+
+func NewExerciseRoutes(r *gin.Engine, exerciseController ExerciseController, questionController QuestionController) {
 	g := r.Group("exercises")
 	{
 		g.POST("", exerciseController.Create)
+		g.POST("/:exerciseId/questions", questionController.Create)
 	}
 }
