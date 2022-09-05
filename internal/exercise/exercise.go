@@ -12,3 +12,7 @@ type ExerciseService interface {
 type QuestionService interface {
 	Create(*exerciseEntities.QuestionCreateRequest) entities.BaseResponse[exerciseEntities.QuestionCreateResponse]
 }
+
+type AnswerService interface {
+	Create(*exerciseEntities.AnswerCreateRequest) entities.BaseResponse[exerciseEntities.AnswerCreateResponse]
+}

@@ -22,4 +22,14 @@ type QuestionValidator interface {
 
 type QuestionRepository interface {
 	Create(*entities.QuestionModel) error
+	GetById(int) (*shared.GetQuestionByIdDTO, error)
+}
+
+// answer
+type AnswerValidator interface {
+	ValidateCreateAnswerPayload(*entities.AnswerCreateRequest) error
+}
+
+type AnswerRepository interface {
+	Create(*entities.AnswerModel) error
 }
