@@ -1,7 +1,10 @@
 package entities
 
+import "exercise-api/internal/shared/entities"
+
 // register response
 type RegisterRequest struct {
+	entities.RequestMetaData
 	Name     string `json:"name" validate:"required,max=255"`
 	Email    string `json:"email" validate:"required,email,max=255"`
 	Password string `json:"password" validate:"required"`
@@ -9,7 +12,7 @@ type RegisterRequest struct {
 }
 
 type RegisterResponse struct {
-	Message string `json:"message"`
+	Id int `json:"id"`
 }
 
 // login response

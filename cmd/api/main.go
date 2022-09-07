@@ -11,6 +11,7 @@ import (
 	exerciseValidator "exercise-api/internal/exercise/validator"
 	"exercise-api/internal/routes"
 	"exercise-api/internal/shared/databases"
+	"exercise-api/internal/shared/middleware"
 	"fmt"
 	"os"
 
@@ -23,6 +24,10 @@ func main() {
 
 	// initialize databases
 	mysql := databases.NewMySQLConn()
+
+	// initialize middleware
+	jwtMiddleware := middleware.JwtMiddleware
+	roleMiddleware := middleware.NewRoleMiddleware(mysql)
 
 	// initialize repositories
 	userRepositoryImpl := accountRepository.NewUserRepository(mysql)
@@ -50,8 +55,8 @@ func main() {
 	answerController := exercise.NewAnswerController(answerServiceImpl)
 
 	// initilaize routes
-	routes.NewAccountRoutes(router, accountController)
-	routes.NewExerciseRoutes(router, exerciseController, questionController, answerController)
+	routes.NewAccountRoutes(router, accountController, jwtMiddleware(), roleMiddleware)
+	routes.NewExerciseRoutes(router, exerciseController, questionController, answerController, jwtMiddleware(), roleMiddleware)
 
 	router.Run(fmt.Sprintf(":%s", os.Getenv("APP_PORT")))
 }

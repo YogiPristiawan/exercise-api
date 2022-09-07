@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"exercise-api/internal/account/entities"
-	"exercise-api/internal/account/shared"
+	"exercise-api/internal/account/model"
 
 	"gorm.io/gorm"
 )
@@ -17,7 +17,7 @@ func NewUserRepository(db *gorm.DB) *accountRepository {
 	}
 }
 
-func (u *accountRepository) GetByEmail(email string) (user *shared.GetByEmailDTO, err error) {
+func (u *accountRepository) GetByEmail(email string) (user *model.GetByEmail, err error) {
 	err = u.db.Table("users").Select(
 		"id",
 		"email",
@@ -27,7 +27,7 @@ func (u *accountRepository) GetByEmail(email string) (user *shared.GetByEmailDTO
 	return
 }
 
-func (u *accountRepository) GetRoleById(id int) (role *shared.GetRoleByIdDTO, err error) {
+func (u *accountRepository) GetRoleById(id int) (role *model.GetRoleById, err error) {
 	err = u.db.Table("roles").Select("id", "name").Where("id = ?", id).First(&role).Error
 	return
 }
@@ -37,7 +37,7 @@ func (u *accountRepository) Create(user *entities.UserModel) (err error) {
 	return
 }
 
-func (u *accountRepository) GetAllRole() (roles []*shared.GetAllRoleDTO, err error) {
+func (u *accountRepository) GetAllRole() (roles []*model.GetAllRole, err error) {
 	err = u.db.Table("roles").First(&roles).Error
 	return
 }

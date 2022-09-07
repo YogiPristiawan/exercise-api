@@ -2,14 +2,14 @@ package services
 
 import (
 	"exercise-api/internal/account/entities"
-	"exercise-api/internal/account/shared"
+	"exercise-api/internal/account/model"
 )
 
 type AccountRepository interface {
-	GetByEmail(string) (*shared.GetByEmailDTO, error)
-	GetRoleById(int) (*shared.GetRoleByIdDTO, error)
+	GetByEmail(string) (*model.GetByEmail, error)
+	GetRoleById(int) (*model.GetRoleById, error)
 	Create(*entities.UserModel) error
-	GetAllRole() ([]*shared.GetAllRoleDTO, error)
+	GetAllRole() ([]*model.GetAllRole, error)
 }
 
 type Validator interface {

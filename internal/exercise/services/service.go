@@ -2,7 +2,7 @@ package services
 
 import (
 	"exercise-api/internal/exercise/entities"
-	"exercise-api/internal/exercise/shared"
+	"exercise-api/internal/exercise/model"
 )
 
 // exercise
@@ -12,7 +12,7 @@ type ExerciseValidator interface {
 
 type ExerciseRepository interface {
 	Create(*entities.ExerciseModel) error
-	GetById(int) (*shared.GetExerciseByIdDTO, error)
+	GetById(int) (*model.GetExerciseById, error)
 }
 
 // question
@@ -22,7 +22,7 @@ type QuestionValidator interface {
 
 type QuestionRepository interface {
 	Create(*entities.QuestionModel) error
-	GetById(int) (*shared.GetQuestionByIdDTO, error)
+	GetById(int) (*model.GetQuestionById, error)
 }
 
 // answer

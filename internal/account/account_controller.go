@@ -1,7 +1,7 @@
 package account
 
 import (
-	"exercise-api/internal/account/entities"
+	accountEntities "exercise-api/internal/account/entities"
 	"exercise-api/internal/presentation"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,11 @@ func NewAccountController(accountService AccountService) *accountController {
 }
 
 func (a *accountController) Register(c *gin.Context) {
-	in := entities.RegisterRequest{}
+	in := accountEntities.RegisterRequest{}
+	authRoleId, _ := c.Get("role_id")
+	authUserId, _ := c.Get("user_id")
+	in.RequestMetaData.AuthRoleId = int(authRoleId.(float64))
+	in.RequestMetaData.AuthUserId = int(authUserId.(float64))
 
 	if !presentation.ReadRestIn(c, &in) {
 		return
@@ -30,7 +34,7 @@ func (a *accountController) Register(c *gin.Context) {
 }
 
 func (a *accountController) Login(c *gin.Context) {
-	in := entities.LoginRequest{}
+	in := accountEntities.LoginRequest{}
 
 	if !presentation.ReadRestIn(c, &in) {
 		return

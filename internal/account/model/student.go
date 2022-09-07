@@ -1,6 +1,6 @@
-package shared
+package model
 
-type GetByEmailDTO struct {
+type GetByEmail struct {
 	Id       int
 	Email    string
 	Password string

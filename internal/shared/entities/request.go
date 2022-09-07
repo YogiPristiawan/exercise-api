@@ -1,5 +1,6 @@
 package entities
 
 type RequestMetaData struct {
-	UserId int
+	AuthUserId int
+	AuthRoleId int
 }

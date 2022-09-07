@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"exercise-api/internal/exercise/entities"
-	"exercise-api/internal/exercise/shared"
+	"exercise-api/internal/exercise/model"
 
 	"gorm.io/gorm"
 )
@@ -24,7 +24,7 @@ func (e *exerciseRepository) Create(exercise *entities.ExerciseModel) (err error
 	return
 }
 
-func (e *exerciseRepository) GetById(id int) (exercise *shared.GetExerciseByIdDTO, err error) {
+func (e *exerciseRepository) GetById(id int) (exercise *model.GetExerciseById, err error) {
 	err = e.db.
 		Table("exercises").
 		Select(

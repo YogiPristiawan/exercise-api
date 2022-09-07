@@ -3,9 +3,9 @@ package services
 import (
 	accEntities "exercise-api/internal/account/entities"
 	"exercise-api/internal/account/hash"
-	"exercise-api/internal/account/jwt"
 	"exercise-api/internal/shared/databases"
 	"exercise-api/internal/shared/entities"
+	"exercise-api/internal/shared/jwt"
 	"fmt"
 )
 
@@ -35,6 +35,12 @@ func (a *accountService) Register(in *accEntities.RegisterRequest) (out entities
 	// validate payload
 	if err := a.validator.ValidateRegisterPayload(in); err != nil {
 		out.SetCode(400, err)
+		return
+	}
+
+	// check if user can register account
+	if in.AuthRoleId > in.RoleId {
+		out.SetCode(400, fmt.Errorf("not allowed to registering user"))
 		return
 	}
 
@@ -80,6 +86,7 @@ func (a *accountService) Register(in *accEntities.RegisterRequest) (out entities
 	}
 
 	out.Message = "berhasil mendaftar silahkan login!"
+	out.Data.Id = user.Id
 	out.SetCode(201, nil)
 
 	return
@@ -110,7 +117,7 @@ func (a *accountService) Login(in *accEntities.LoginRequest) (out entities.BaseR
 	}
 
 	// generate token
-	accessToken, err := generateaAccessToken(&accEntities.JwtClaims{
+	accessToken, err := generateaAccessToken(&jwt.JwtClaims{
 		UserId: user.Id,
 		RoleId: user.RoleId,
 	})
@@ -119,6 +126,7 @@ func (a *accountService) Login(in *accEntities.LoginRequest) (out entities.BaseR
 		return
 	}
 
+	out.Message = "login success"
 	out.Data.AccessToken = accessToken
 	return
 }

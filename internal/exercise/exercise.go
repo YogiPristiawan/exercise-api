@@ -7,6 +7,7 @@ import (
 
 type ExerciseService interface {
 	Create(*exerciseEntities.ExerciseCreateRequest) entities.BaseResponse[exerciseEntities.ExerciseCreateResponse]
+	GetScore(*exerciseEntities.ExerciseGetScoreRequest) entities.BaseResponse[exerciseEntities.ExerciseGetScoreResponse]
 }
 
 type QuestionService interface {

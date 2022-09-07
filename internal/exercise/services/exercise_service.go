@@ -36,7 +36,7 @@ func (e *exerciseService) Create(in *exerciseEntities.ExerciseCreateRequest) (ou
 	exercise := &exerciseEntities.ExerciseModel{
 		Title:       in.Title,
 		Description: in.Description,
-		AuthorId:    in.UserId,
+		AuthorId:    in.RequestMetaData.AuthUserId,
 	}
 	if err := e.exerciseRepository.Create(exercise); err != nil {
 		switch castDatabaseError(err) {
@@ -51,4 +51,9 @@ func (e *exerciseService) Create(in *exerciseEntities.ExerciseCreateRequest) (ou
 	out.Data.Title = exercise.Title
 	out.SetCode(201, nil)
 	return
+}
+
+func (e *exerciseService) GetScore(in *exerciseEntities.ExerciseGetByIdRequest) (out entities.BaseResponse[exerciseEntities.ExerciseGetByIdResponse]) {
+	// get exercise
+	exercise := 
 }

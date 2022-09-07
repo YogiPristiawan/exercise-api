@@ -1,6 +1,6 @@
-package shared
+package model
 
-type GetQuestionByIdDTO struct {
+type GetQuestionById struct {
 	Id         int
 	ExerciseId int
 	Body       string

@@ -54,7 +54,7 @@ func (a *answerService) Create(in *answerEntities.AnswerCreateRequest) (out enti
 	answer := exerciseEntities.AnswerModel{
 		ExerciseId: in.ExerciseId,
 		QuestionId: in.QuestionId,
-		UserId:     in.RequestMetaData.UserId,
+		UserId:     in.RequestMetaData.AuthUserId,
 		Answer:     in.Answer,
 	}
 	err = a.answerRepository.Create(&answer)

@@ -2,7 +2,6 @@ package jwt
 
 import (
 	"errors"
-	"exercise-api/internal/account/entities"
 	"fmt"
 	"os"
 	"time"
@@ -10,10 +9,14 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-// this variable should not be changed
 var accessTokenSecretKey = []byte(os.Getenv("ACCESS_TOKEN_SECRET_KEY"))
 
-func GenerateAccessToken(myClaims *entities.JwtClaims) (token string, err error) {
+type JwtClaims struct {
+	UserId int
+	RoleId int
+}
+
+func GenerateAccessToken(myClaims *JwtClaims) (token string, err error) {
 	claims := jwt.MapClaims{
 		"user_id": myClaims.UserId,
 		"role_id": myClaims.RoleId,

@@ -1,4 +1,4 @@
-package shared
+package repositories
 
 type GetRoleByIdDTO struct {
 	Id   int
