@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"exercise-api/internal/exercise/entities"
 	exerciseEntities "exercise-api/internal/exercise/entities"
 	"exercise-api/internal/exercise/model"
 
@@ -32,5 +33,10 @@ func (q *questionRepository) GetById(questionId int) (question *model.GetQuestio
 			"body",
 		).
 		Where("id = ?", questionId).First(&question).Error
+	return
+}
+
+func (q *questionRepository) FindByExerciseId(exerciseId int) (questions []*entities.QuestionModel, err error) {
+	err = q.db.Where("exercise_id = ?", exerciseId).Find(&questions).Error
 	return
 }

@@ -5,3 +5,6 @@ type GetQuestionById struct {
 	ExerciseId int
 	Body       string
 }
+
+type GetQuestionByExerciseId struct {
+}

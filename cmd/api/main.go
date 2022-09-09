@@ -44,7 +44,7 @@ func main() {
 
 	// initialize services
 	accountServiceImpl := accountService.NewAccountService(userRepositoryImpl, accountValidatorImpl)
-	exerciseServiceImpl := exerciseService.NewExerciseService(exerciseValidatorImpl, exerciseRepositoryImpl)
+	exerciseServiceImpl := exerciseService.NewExerciseService(exerciseValidatorImpl, exerciseRepositoryImpl, questionRepositoryImpl)
 	questionServiceImpl := exerciseService.NewQuestionService(questionValidatorImpl, questionRepositoryImpl, exerciseRepositoryImpl)
 	answerServiceImpl := exerciseService.NewAnswerService(answerValidatorImpl, questionRepositoryImpl, answerRepositoryImpl)
 

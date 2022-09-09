@@ -31,7 +31,23 @@ func (e *exerciseRepository) GetById(id int) (exercise *model.GetExerciseById, e
 			"id",
 			"title",
 			"description",
+			"author_id",
 		).
 		Where("id = ?", id).First(&exercise).Error
+	return
+}
+
+func (e *exerciseRepository) FindUserQuestionAnswer(exerciseId int, userId int) (results []map[string]interface{}, err error) {
+	err = e.db.Raw(`
+		SELECT
+			questions.correct_answer,
+			questions.score,
+			answers.answer AS user_answer
+		FROM
+			answers
+			INNER JOIN questions ON questions.id = answers.question_id AND questions.exercise_id = ?
+		WHERE
+			answers.user_id = ?
+	`, exerciseId, userId).Find(&results).Error
 	return
 }

@@ -7,6 +7,7 @@ import (
 
 type ExerciseService interface {
 	Create(*exerciseEntities.ExerciseCreateRequest) entities.BaseResponse[exerciseEntities.ExerciseCreateResponse]
+	GetById(*exerciseEntities.ExerciseGetByIdRequest) entities.BaseResponse[exerciseEntities.ExerciseGetByIdResponse]
 	GetScore(*exerciseEntities.ExerciseGetScoreRequest) entities.BaseResponse[exerciseEntities.ExerciseGetScoreResponse]
 }
 

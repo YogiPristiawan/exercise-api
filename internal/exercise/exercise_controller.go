@@ -22,7 +22,12 @@ func NewExerciseController(
 }
 
 func (e *exerciseController) Create(c *gin.Context) {
-	in := exerciseEntities.ExerciseCreateRequest{}
+	authUserId, _ := c.Get("user_id")
+	in := exerciseEntities.ExerciseCreateRequest{
+		RequestMetaData: entities.RequestMetaData{
+			AuthUserId: int(authUserId.(float64)),
+		},
+	}
 
 	if !presentation.ReadRestIn(c, &in) {
 		return
@@ -36,6 +41,7 @@ func (e *exerciseController) Create(c *gin.Context) {
 
 func (e *exerciseController) GetScore(c *gin.Context) {
 	exerciseId, err := strconv.Atoi(c.Param("exerciseId"))
+	authUserId, _ := c.Get("user_id")
 	if err != nil {
 		out := entities.CommonResult{
 			ResCode:    400,
@@ -45,7 +51,16 @@ func (e *exerciseController) GetScore(c *gin.Context) {
 		return
 	}
 
-	in := exerciseEntities.GetScoreRequest{}
+	in := exerciseEntities.ExerciseGetScoreRequest{
+		ExerciseId: exerciseId,
+		RequestMetaData: entities.RequestMetaData{
+			AuthUserId: int(authUserId.(float64)),
+		},
+	}
+
+	out := e.exerciseService.GetScore(&in)
+
+	presentation.WriteRestOut(c, out, &out.CommonResult)
 }
 
 func (e *exerciseController) GetById(c *gin.Context) {

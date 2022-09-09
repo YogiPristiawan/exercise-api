@@ -22,6 +22,9 @@ func NewAnswerController(
 }
 
 func (a *answerController) Create(c *gin.Context) {
+	// get auth user id
+	authUserId, _ := c.Get("user_id")
+
 	// collect params
 	exerciseId, err := strconv.Atoi(c.Param("exerciseId"))
 	if err != nil {
@@ -44,6 +47,9 @@ func (a *answerController) Create(c *gin.Context) {
 	}
 
 	in := exerciseEntities.AnswerCreateRequest{
+		RequestMetaData: entities.RequestMetaData{
+			AuthUserId: int(authUserId.(float64)),
+		},
 		ExerciseId: exerciseId,
 		QuestionId: questionId,
 	}

@@ -9,6 +9,7 @@ import (
 type ExerciseController interface {
 	Create(c *gin.Context)
 	GetScore(c *gin.Context)
+	GetById(c *gin.Context)
 }
 
 type QuestionController interface {
@@ -29,8 +30,9 @@ func NewExerciseRoutes(
 	g := r.Group("exercises")
 	{
 		g.POST("", jwtMiddleware, roleMiddleware.AllowRole("superadmin", "admin"), exerciseController.Create)
-		g.GET("/:exerciseId/score", jwtMiddleware, exerciseController.GetScore)
+		g.GET("/:exerciseId", jwtMiddleware, exerciseController.GetById)
+		g.GET("/:exerciseId/score", jwtMiddleware, roleMiddleware.AllowRole("student"), exerciseController.GetScore)
 		g.POST("/:exerciseId/questions", jwtMiddleware, roleMiddleware.AllowRole("superadmin", "admin"), questionController.Create)
-		g.POST("/:exerciseId/questions/:questionId/answers", jwtMiddleware, answerController.Create)
+		g.POST("/:exerciseId/questions/:questionId/answers", jwtMiddleware, roleMiddleware.AllowRole("student"), answerController.Create)
 	}
 }

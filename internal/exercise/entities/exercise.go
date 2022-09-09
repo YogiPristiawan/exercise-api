@@ -32,10 +32,11 @@ type ExerciseGetByIdRequest struct {
 
 type ExerciseGetByIdResponse struct {
 	ExerciseModel
-	Questions []*QuestionModel `json:"questions"`
+	Questions []map[string]interface{} `json:"questions"`
 }
 
 type ExerciseGetScoreRequest struct {
+	entities.RequestMetaData
 	ExerciseId int
 }
 

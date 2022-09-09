@@ -5,7 +5,6 @@ import (
 	exerciseEntities "exercise-api/internal/exercise/entities"
 	"exercise-api/internal/shared/entities"
 	"fmt"
-	"log"
 )
 
 type answerService struct {
@@ -35,7 +34,6 @@ func (a *answerService) Create(in *answerEntities.AnswerCreateRequest) (out enti
 
 	// check if exercise and questions exists
 	question, err := a.questionRepository.GetById(in.QuestionId)
-	log.Print(question)
 	switch castDatabaseError(err) {
 	case 404:
 		out.SetCode(404, fmt.Errorf("data question tidak ditemukan"))
@@ -47,6 +45,18 @@ func (a *answerService) Create(in *answerEntities.AnswerCreateRequest) (out enti
 
 	if question.ExerciseId != in.ExerciseId {
 		out.SetCode(400, fmt.Errorf("data exercise tidak ditemukan"))
+		return
+	}
+
+	// check if answers exists
+	count, err := a.answerRepository.VerifyExistsAnswer(in.AuthUserId, in.ExerciseId, in.QuestionId)
+	switch castDatabaseError(err) {
+	case 500:
+		out.SetCode(500, err)
+		return
+	}
+	if count > 0 {
+		out.SetCode(400, fmt.Errorf("kamu sudah mengisi jawaban"))
 		return
 	}
 
